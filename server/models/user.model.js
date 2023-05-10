@@ -60,6 +60,10 @@ const UserSchema = new Schema({
             }
         }
     } */
+    milestones : [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Milestone'
+    }]
 },
 {
     timestamps: true
