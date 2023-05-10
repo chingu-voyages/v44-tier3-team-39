@@ -161,7 +161,7 @@ dist
 
 # Gradle
 .idea/**/gradle.xml
-.idea/**/libraries
+.idea/**/librariess
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
@@ -245,5 +245,3 @@ fabric.properties
 # Azure Toolkit for IntelliJ plugin
 # https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
 .idea/**/azureSettings.xml
-
-# End of https://www.toptal.com/developers/gitignore/api/jetbrains
