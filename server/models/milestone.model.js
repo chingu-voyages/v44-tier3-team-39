@@ -40,4 +40,6 @@ const milestoneSchema = new Schema({
     timestamps: true
 });
 
-export default model('Milestone', milestoneSchema);
+const Milestone = model('Milestone', milestoneSchema);
+
+export default Milestone;

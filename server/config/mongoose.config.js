@@ -17,14 +17,12 @@
 
 import mongoose from 'mongoose';
 
-
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://user:pass@test.4ee8wnw.mongodb.net/?retryWrites=true&w=majority";
 const connectDb = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false
     });
 
     console.log('MongoDB connected');

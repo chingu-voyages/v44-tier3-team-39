@@ -57,7 +57,7 @@ const userSchema = new Schema({
         }
     } */
     milestones : [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Milestone'
     }]
 },

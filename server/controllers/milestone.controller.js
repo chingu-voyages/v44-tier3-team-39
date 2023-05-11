@@ -1,8 +1,6 @@
-const Milestone = require('../models/milestone.model')
-const User = require('../models/user.model')
-
-const asyncHandler = require('express-async-handler')
-
+import Milestone from '../models/milestone.model.js';
+import User from '../models/user.model.js';
+import asyncHandler from 'express-async-handler';
 
 
 
@@ -10,7 +8,7 @@ const asyncHandler = require('express-async-handler')
 //@desc Get all Milestones
 // @route Get /milestones
 // @access Private
-const getAllMilestones = asyncHandler( async (req, res) => {
+export const getAllMilestones = asyncHandler( async (req, res) => {
     const milestones = await Milestone.find().lean()
 
     if(!milestones?.length) {
@@ -28,7 +26,7 @@ const getAllMilestones = asyncHandler( async (req, res) => {
 //@desc Get one Milestone
 // @route Get /milestone
 //@access Private
-const getOneMilestone = asyncHandler( async (req, res) => {
+export const getOneMilestone = asyncHandler( async (req, res) => {
     const milestone = await Milestone.findOne({milestoneNum}).lean()
     const user = await User.findById(milestone.user).lean()
 
@@ -42,7 +40,7 @@ const getOneMilestone = asyncHandler( async (req, res) => {
 // @desc Create New Milestone
 // @route POST /milestones
 // @access Public
-const createNewMilestone = asyncHandler( async (req, res) => {
+export const createNewMilestone = asyncHandler( async (req, res) => {
     const { title, description, deadline, status, owner} = req.body
 
     if(!title || !description?.description.length < 10 || !deadline?.deadline <= Date.now() || !status || !owner ) {
@@ -63,7 +61,7 @@ const createNewMilestone = asyncHandler( async (req, res) => {
 // @desc Update a Milestone
 // @route PATCH /milestones
 // @access Private
-const updateMilestone = asyncHandler( async (req, res) => {
+export const updateMilestone = asyncHandler( async (req, res) => {
     const { title, description, deadline, status, owner, collaborators, milestoneNum } = req.body
 
     if(!title || !description?.description.length < 10 || !deadline?.deadline <= Date.now() || !status || !owner) {
@@ -98,7 +96,7 @@ const updateMilestone = asyncHandler( async (req, res) => {
 // @desc Delete a Milestone
 // @route DELETE /milestone
 // @access Private
-const deleteMilestone = asyncHandler( async (req, res) => {
+export const deleteMilestone = asyncHandler( async (req, res) => {
     const {milestoneNum} = req.body //TODO collaborator check (roles)
 
     if(!milestoneNum || typeof milestoneNum !== 'number') {
@@ -118,10 +116,3 @@ const deleteMilestone = asyncHandler( async (req, res) => {
 
 } )
 
-module.exports = {
-    getAllMilestones,
-    getOneMilestone,
-    createNewMilestone,
-    updateMilestone,
-    deleteMilestone
-}

@@ -1,40 +1,45 @@
-// require('dotenv').config()
-// const express = require('express') // Not needed with next.js ?
-// const app = express();
-// const PORT = process.env.PORT || 8000; // 8000 for localhost testing
-
-// const mongoose = require('mongoose')
-// const connectDB = mongoose()
-
-// connectDB()
-
-// //Routes
-
-// app.listen(port, () => console.log(`Listening on port: ${PORT}`))
-
 import path from "path";
 import express from "express";
-import cookieParser from "cookie-parser";
+import session from 'cookie-session';
 import dotenv from "dotenv";
-import connectDB from "./config/mongoose.config.js";
+
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import userRoutes from "./routes/user.routes.js";
+import milestoneRoutes from "./routes/milestone.routes.js";
+
+// Import the 'crypto' module for generating secure random bytes
+import  crypto from 'crypto';
+
 // Load environment variables from .env file
 dotenv.config();
 
-// Connect to the database
-connectDB();
 
 // Create an Express application
 const app = express();
 
-// Use the cookie-parser middleware to parse cookies in incoming requests
-app.use(cookieParser());
+
+
+// Generate two random 8-byte keys and store them in an array
+const keys = [
+crypto.randomBytes(8).toString('hex'),
+crypto.randomBytes(8).toString('hex')
+];
+
+// Set up cookie-session middleware to handle session management with client-side cookies
+app.use(
+    session({
+      name: 'session', // name of the cookie that will be set on the client-side
+      keys: keys, // an array of secret keys used to sign the cookie and verify its integrity
+      maxAge: 24 * 60 * 60 * 1000 // maximum age of the cookie, in milliseconds (24 hours in this case)
+    })
+  );
 
 // Parse JSON in request body
 app.use(express.json());
 
 // Routes
-
+app.use("/api/milestones", milestoneRoutes);
+app.use("/api/users", userRoutes);
 
 // Error handlers
 app.use(notFound); // Middleware to handle 404 errors
@@ -56,9 +61,4 @@ if (process.env.NODE_ENV === "production") {
     });
 }
 
-const PORT = process.env.PORT || 6000;
-
-// Start the server
-app.listen(PORT, () =>
-  console.log(`Server started on port ${PORT}`)
-);
+export { app }
