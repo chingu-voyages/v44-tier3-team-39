@@ -7,10 +7,31 @@
 
 
 
-const mongoose = require('mongoose')
-mongoose.connection.once('process.env.DATABASE_URI', {
-    useUnifiedTopology: true,
-    useNewUrlParser: true
-})
-    .then(() => console.log(`Established Connection to DB: /* $ { DB NAME } */`))
-    .catch(err => console.log(`Error Connecting`))
+// const mongoose = require('mongoose')
+// mongoose.connection.once('process.env.DATABASE_URI', {
+//     useUnifiedTopology: true,
+//     useNewUrlParser: true
+// })
+//     .then(() => console.log(`Established Connection to DB: /* $ { DB NAME } */`))
+//     .catch(err => console.log(`Error Connecting`))
+
+import mongoose from 'mongoose';
+
+
+const connectDb = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false
+    });
+
+    console.log('MongoDB connected');
+  } catch (error) {
+    console.error(`MongoDB connection error: ${error}`);
+    process.exit(1);
+  }
+};
+
+export default connectDb;
