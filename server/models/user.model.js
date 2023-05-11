@@ -44,7 +44,7 @@ const UserSchema = new Schema({
             }
         },
         overdue: {
-                        activeStatus: {
+            activeStatus: {
                 type: Boolean,
                 default: false,
                 required: true

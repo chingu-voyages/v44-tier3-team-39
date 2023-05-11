@@ -45,7 +45,7 @@ const getOneMilestone = asyncHandler( async (req, res) => {
 const createNewMilestone = asyncHandler( async (req, res) => {
     const { title, description, deadline, status, owner} = req.body
 
-    if(!title || !description?.description.length < 10 || !deadline?.deadline <= Date.now() || !status || !owner ) {
+    if(!title || !description?.description.length < 10 || !deadline || !status || !owner ) {
         return res.status(400).json({message: 'All milestone fields required /title, description > 10 characters, deadline set after today, status, owner, createdAt  '})
     }
     const milestone = await Milestone.create({title, description, deadline, status, owner})
