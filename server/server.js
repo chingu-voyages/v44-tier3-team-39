@@ -17,6 +17,25 @@ dotenv.config();
 // Create an Express application
 const app = express();
 
+const cors = require('cors')
+const corsOptions = require('./config/corsOptions')
+
+const connectDB = require('./config/dbConn')
+const mongoose = require('mongoose')
+
+const PORT = process.env.PORT || 8000; // 8000 for localhost testing
+
+const connectDB = mongoose()
+connectDB()
+
+app.use(cors(corsOptions))
+
+app.use(express.json())
+
+
+//Routes
+app.use('/users', require('./routes/user.routes'))
+
 
 
 // Generate two random 8-byte keys and store them in an array

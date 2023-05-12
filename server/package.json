@@ -21,10 +21,11 @@
   },
   "type": "module",
   "keywords": [],
-  "author": "",
+  "author": "Team 39",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
     "bcryptjs": "^2.4.3",
     "cookie": "^0.5.0",
     "cookie-session": "^2.0.0",
