@@ -22,7 +22,7 @@ export default function RootLayout({
                 <Header loggedIn={false} />
                 <main
                     className={
-                        inter.className + "h-full overflow-y-hidden mb-auto"
+                        inter.className + " h-full overflow-y-hidden mb-auto"
                     }
                 >
                     {/* className="flex flex-col max-w-screen-lg justify-center items-center w-full h-full mx-auto" */}
