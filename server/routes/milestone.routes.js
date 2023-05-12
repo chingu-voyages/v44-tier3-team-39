@@ -6,6 +6,7 @@ import {
   updateMilestone,
   deleteMilestone,
 } from '../controllers/milestone.controller.js';
+import tagsWare from '../middleware/tagsWare.js';
 
 const router = express.Router();
 
@@ -16,10 +17,10 @@ router.get('/milestones', getAllMilestones);
 router.get('/milestones/:milestoneNum', getOneMilestone);
 
 // Create new milestone
-router.post('/milestones', createNewMilestone);
+router.post('/milestones',tagsWare, createNewMilestone);
 
 // Update a milestone
-router.patch('/milestones/:milestoneNum', updateMilestone);
+router.patch('/milestones/:milestoneNum',tagsWare, updateMilestone);
 
 // Delete a milestone
 router.delete('/milestones/:milestoneNum', deleteMilestone);
