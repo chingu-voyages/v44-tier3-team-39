@@ -17,7 +17,7 @@
 
 import mongoose from 'mongoose';
 
-const DATABASE_URI = process.env.DATABASE_URI || "mongodb+srv://user:pass@test.4ee8wnw.mongodb.net/?retryWrites=true&w=majority";
+const DATABASE_URI = process.env.DATABASE_URI;
 const connectDb = async () => {
   try {
     await mongoose.connect(DATABASE_URI, {
