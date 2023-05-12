@@ -7,20 +7,23 @@ const UserSchema = new Schema({
     username: {
         firstname: {
             type: String,
+            default: 'Guest',
             required: true
         },
         lastname: {
             type: String,
+            default: ' ',
             required: true
         },
         displayName: {
             type: String,
+            default: 'Guest',
             required: true
         }
     },
     password: {
         type: String,
-        required: true
+        required: this.firstname !== 'Guest' ? true : false
     },
     email: {
         type: String,
