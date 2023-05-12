@@ -17,10 +17,10 @@
 
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://user:pass@test.4ee8wnw.mongodb.net/?retryWrites=true&w=majority";
+const DATABASE_URI = process.env.DATABASE_URI || "mongodb+srv://user:pass@test.4ee8wnw.mongodb.net/?retryWrites=true&w=majority";
 const connectDb = async () => {
   try {
-    await mongoose.connect(MONGODB_URI, {
+    await mongoose.connect(DATABASE_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

@@ -2,7 +2,8 @@ import path from "path";
 import express from "express";
 import session from 'cookie-session';
 import dotenv from "dotenv";
-
+import cors from 'cors'
+import corsOptions from './config/corsOptions.js'
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import userRoutes from "./routes/user.routes.js";
 import milestoneRoutes from "./routes/milestone.routes.js";
@@ -17,26 +18,8 @@ dotenv.config();
 // Create an Express application
 const app = express();
 
-const cors = require('cors')
-const corsOptions = require('./config/corsOptions')
-
-const connectDB = require('./config/dbConn')
-const mongoose = require('mongoose')
-
-const PORT = process.env.PORT || 8000; // 8000 for localhost testing
-
-const connectDB = mongoose()
-connectDB()
 
 app.use(cors(corsOptions))
-
-app.use(express.json())
-
-
-//Routes
-app.use('/users', require('./routes/user.routes'))
-
-
 
 // Generate two random 8-byte keys and store them in an array
 const keys = [

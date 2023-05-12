@@ -5,4 +5,4 @@ const allowedOrigins = [
     // Site URL will go here instead of:
     "https://www.milestoned.com",
 ];
-module.exports = allowedOrigins;
+export default allowedOrigins;
