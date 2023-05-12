@@ -16,6 +16,23 @@ const getAllUsers = asyncHandler(async (req, res) => {
     res.json(users)
 }  )
 
+const getOneUser = asyncHandler(async (req, res) => {
+    const { _id, username, email, milestones } = req.body /*notifications*/
+    const {firstname, lastname, displayName} = username
+
+    const user = await User.findById(_id).exec()
+    if(!user) {
+    return res.status(400).json({ message: `No user found with ID ${id}` }) // don't use for production 'No user found instead'
+
+}
+    user.username = username
+    user.email = email
+    user.milestones = milestones
+    
+    res.json({username, email, milestones})
+})
+
+
 // @desc Create New User
 // @route POST /users
 // @access Private
@@ -107,6 +124,7 @@ const deleteUser = asyncHandler( async (req, res) => {
 
 module.exports = {
     getAllUsers,
+    getOneUser,
     createNewUser,
     updateUser,
     deleteUser
