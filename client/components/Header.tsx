@@ -1,5 +1,6 @@
 const Header = () => {
-    return (<div className='flex justify-between items-center w-full bg-white'>
+    return (
+        <div className='flex justify-between items-center shadow-md w-full bg-white mb-5 px-10'>
         <div className='font-bold text-2xl p-4'>Milestone</div>
         <div className='text-blue-400 p-4'>
             <a className="mr-4" href="/login">Login</a>

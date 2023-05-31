@@ -1,6 +1,6 @@
 import HistoryTab from "@/components/HistoryTab";
 import Header from "../components/Header";
-import Footer from "../components/Header";
+import Footer from "../components/Footer";
 
 
 
@@ -8,8 +8,9 @@ const Body = () => {
     return (
         <div className='h-full w-full overflow-hidden'>
             <div className="flex flex-row w-full h-full">
-            <div className="w-2/4 h-full flex flex-col items-center overflow-y-scroll">
-  <div className="bg-white rounded-lg w-5/6 mt-8">
+            <div className="w-2/4 h-full flex flex-col items-center">
+
+  <div className="bg-white rounded-lg w-2/3 mt-8">
     <div className="p-4">
       <form action="/submit" method="POST">
         <div className="font-bold text-xl mb-4">Add New Milestone</div>
@@ -41,17 +42,18 @@ const Body = () => {
     </div>
   </div>
 
-  <div className="bg-white rounded-lg w-5/6 mt-4">
+    {/* temporarily removed tags section */}
+  {/* <div className="bg-white rounded-lg w-5/6 mt-4">
     <div className="font-bold text-xl p-4">Tags</div>
     <div className="ml-4 mb-4">
       <button className="bg-red-100 rounded-lg px-8 py-2 mr-4">Python</button>
       <button className="bg-indigo-100 rounded-lg px-8 py-2 mr-4">JS</button>
       <button className="bg-green-100 rounded-lg px-8 py-2 mr-4">Hobby</button>
     </div>
-  </div>
+  </div> */}
 </div>
 
-                <div className="w-2/4 h-full overflow-y-scroll">
+                <div className="w-2/4 h-full">
                     <div className="mt-8 flex items-center justify-start">
                         <div className="rounded-full bg-blue-400 w-10 h-10"></div>
                         <div className="ml-4 text-gray-500">May 9, 2023</div>
@@ -89,7 +91,7 @@ const Body = () => {
 
 export default function Home() {
     return (
-        <main className="flex flex-col max-w-screen-lg justify-center items-center w-full h-screen">
+        <main className="flex flex-col justify-center items-center w-full">
             <Header />
             <Body />
             <Footer />
