@@ -22,7 +22,7 @@ const LoginPage = () => {
 
     return (
         
-        <div className="flex w-screen flex-col items-center justify-center gap-9 px-3 md:px-52">
+        <div className="flex w-screen h-screen flex-col items-center justify-center gap-9 px-3 md:px-52">
         <h4>Login</h4>
         <div className="w-5/6 md:w-3/6">
         <form onSubmit={handleSubmit}>
@@ -69,7 +69,7 @@ const LoginPage = () => {
 
 export default function Home() {
     return (
-        <main className="flex flex-col min-h-screen">
+        <main>
             <Header />
             <LoginPage />
             <Footer />
