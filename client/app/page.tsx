@@ -1,127 +1,89 @@
+import Link from "next/link";
+import Image from "next/image";
+import { Libre_Baskerville, Kalam } from "next/font/google";
+import handPic from "../public/hand holding phone UPDATED without button.png";
+import arrowImg from "../public/arrow image.png";
 
-const Header = () => {
-    return (<div className='flex justify-between items-center w-full bg-white'>
-        <div className='font-bold text-2xl p-4'>Milestone</div>
-        <div className='text-blue-400 p-4'>
-            <a className="mr-4" href="/login">Login</a>
-            <a href='/logout'>Register</a>
-        </div>
-    </div>)
-}
+const libreBaskerville = Libre_Baskerville({
+    weight: "700",
+    subsets: ["latin"],
+});
 
-const TextButton: any = ({ text, placeholder }: any): any => {
+const kalam = Kalam({
+    weight: "700",
+    subsets: ["latin"],
+});
+
+export default function Landing() {
     return (
-        <div className="p-4 rounded-3xl">
-            <div>{text}</div>
-            <div className="w-full border-2 rounded-lg border-gray-400"><input className="h-8 border-3 border-solid rounded-md border-gray-400 w-full" placeholder={placeholder} /></div>
-        </div>
-    )
-}
-
-const HistoryTab: any = (): any => {
-    return (<div className="flex items-center justify-start w-full">
-        <div className="w-10"></div>
-        <div className="ml-4 w-5/6">
-            <div className="bg-white rounded-lg mt-4 pb-1">
-                <div className="font-bold text-md p-4">Graduated from Coding Boot Camp</div>
-                <div className="p-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras lobortis, ex nec pretium convallis, mauris ipsum vehicula risus, et mollis massa ante quis diam. Integer pellentesque porta orci vitae mollis. Vestibulum tempus felis efficitur egestas dictum. Mauris congue faucibus nisi, nec scelerisque urna.
-
-                    Lorem.
-                    Lorem.
-                    Lorem.</div>
-                <div className="ml-4 mb-4">
-                    <button className="bg-red-100 rounded-lg px-8 py-2 mr-4">Python</button>
-                    <button className="bg-indigo-100 rounded-lg  px-8 py-2 mr-4">JS</button>
+        <div className="w-full h-full grid grid-cols-2 items-center justify-center gap-20">
+            <div className="flex justify-end pl-10">
+                <div className="flex flex-col items-center justify-center text-center gap-2">
+                    <div
+                        className={
+                            libreBaskerville.className +
+                            " text-6xl mb-5 text-[#334155]"
+                        }
+                    >
+                        Welcome to
+                        <p className="text-blue-600">Milestoned</p>
+                    </div>
+                    <p className="max-w-[600px]  min-w-[600px] text-xl">
+                        With Milestoned, you can create personalized milestones
+                        for your accomplishments, and easily filter them by
+                        tags. Whether you want to remember a major career
+                        breakthrough, or simply mark a personal milestone, we
+                        made it easy to stay organized and motivated. Start
+                        celebrating your journey today with Milestoned!
+                    </p>
+                    <Link href="/login">
+                        <button className="rounded-lg bg-[#334155] text-white px-16 py-2 text-center w-full">
+                            LOGIN
+                        </button>
+                    </Link>
+                    <p className="text-xl">
+                        Don't have an account?{" "}
+                        <Link href="/register" className="text-blue-600 ">
+                            Register here!
+                        </Link>
+                    </p>
+                </div>
+            </div>
+            <div className="max-w-[650px] h-full max-h-[1000px] flex items-center justify-start p-5 pr-10 relative bottom-10">
+                <div className="rounded-3xl border-0 border-black relative w-full min-w-[600px] h-5/6">
+                    <p
+                        className={
+                            kalam.className +
+                            " text-[#EA580C] absolute text-3xl min-w-[155px] right-[600px] top-[140px] z-50 text-"
+                        }
+                    >
+                        Try it now!
+                    </p>
+                    <Link
+                        href="/dashboard"
+                        className="absolute left-[166px] top-[120px] z-20"
+                    >
+                        <button className="rounded-lg bg-blue-600 text-white px-12 py-2 text-center w-full">
+                            Create a New Milestone
+                        </button>
+                    </Link>
+                    <Image
+                        src={arrowImg}
+                        className="absolute z-30 object-none right-[410px] top-[130px] w-[300px]"
+                        alt="Arrow pointing at button to use app as guest"
+                        width={200}
+                        height={50}
+                    />
+                    <div className="rounded-3xl bg-[#334155] w-full h-5/6 absolute bottom-0"></div>
+                    <Image
+                        src={handPic}
+                        className="absolute left-[0px] object-none object-left-top rounded-3xl h-full w-full"
+                        alt="Hand holding phone"
+                        width={876}
+                        height={1023}
+                    />
                 </div>
             </div>
         </div>
-    </div>
-    )
-}
-
-const Body = () => {
-    return (
-        <div className='h-full w-full overflow-hidden'>
-            <div className="flex flex-row w-full h-full">
-                <div className="w-2/4 h-full flex flex-col items-center overflow-y-scroll">
-                    <div className="bg-white rounded-lg w-5/6 mt-8">
-                        <div className="font-bold text-xl p-4">Add New Milestone</div>
-                        <TextButton text="Title" placeholder="Enter milestone title" />
-                        <TextButton text="Description" placeholder="Enter description" />
-                        <TextButton text="Start Date" placeholder="mm/dd/yyyy" />
-                        <TextButton text="End Date" placeholder="mm/dd/yyyy" />
-                        <TextButton text="End Date" placeholder="mm/dd/yyyy" />
-                        <div className="flex items-end justify-end mb-4 w-full">
-                            <div></div>
-                            <button className="bg-blue-500 rounded-lg text-white px-8 py-2 mr-4">Add +</button>
-                        </div>
-                    </div>
-
-                    <div className="bg-white rounded-lg w-5/6 mt-4">
-                        <div className="font-bold text-xl p-4">Tags</div>
-                        <div className="ml-4 mb-4">
-                            <button className="bg-red-100 rounded-lg px-8 py-2 mr-4">Python</button>
-                            <button className="bg-indigo-100 rounded-lg  px-8 py-2 mr-4">JS</button>
-                            <button className="bg-green-100 rounded-lg  px-8 py-2 mr-4">Hobby</button>
-                        </div>
-                    </div>
-                </div>
-                <div className="w-2/4 h-full overflow-y-scroll">
-                    <div className="mt-8 flex items-center justify-start">
-                        <div className="rounded-full bg-blue-400 w-10 h-10"></div>
-                        <div className="ml-4 text-gray-500">May 9, 2023</div>
-                    </div>
-
-                    <HistoryTab />
-
-                    <div className="mt-8 flex items-center justify-start">
-                        <div className="rounded-full bg-blue-400 w-10 h-10"></div>
-                        <div className="ml-4 text-gray-500">February 1, 2023</div>
-                    </div>
-
-                    <HistoryTab />
-
-                    <div className="mt-8 flex items-center justify-start">
-                        <div className="rounded-full bg-blue-400 w-10 h-10"></div>
-                        <div className="ml-4 text-gray-500">December 23, 2022</div>
-                    </div>
-
-                    <HistoryTab />
-
-                    <div className="mt-8 flex items-center justify-start">
-                        <div className="rounded-full bg-blue-400 w-10 h-10"></div>
-                        <div className="ml-4 text-gray-500">October 3, 2022</div>
-                    </div>
-
-                    <HistoryTab />
-                </div>
-
-
-            </div>
-        </div >)
-}
-
-const Footer = () => {
-    return (
-        <div className='flex justify-between items-center w-full bg-white'>
-            <div className='p-4'>
-                <span className='mr-4'>About</span>
-                <span className='mr-4'>Privacy</span>
-                <span className='mr-4'>Terms</span>
-            </div>
-            <div className='p-4'>
-                <span>Milestoned v1.0.0</span>
-            </div>
-        </div>
-    )
-}
-
-export default function Home() {
-    return (
-        <main className="flex flex-col max-w-screen-lg justify-center items-center w-full h-screen">
-            <Header />
-            <Body />
-            <Footer />
-        </main>
-    )
+    );
 }
