@@ -1,12 +1,12 @@
-import dynamic from 'next/dynamic';
+
 import HistoryTab from './HistoryTab';
 
 const Body = () => {
   return (
     <div className="h-full w-full overflow-hidden ">
-      <div className="flex flex-row w-full h-full m-5">
+      <div className="flex flex-row w-100 h-full mx-10" >
         <div className="w-2/4 h-full flex flex-col items-center m-5">
-          <div className="bg-white rounded-lg w-2/3 mt-8 m-5">
+          <div className="bg-white rounded-lg w-2/3 mt-8 ">
             <div className="p-4 m-5">
               <form action="/submit" method="POST">
                 <div className="font-bold text-xl mb-4">Add New Milestone</div>
@@ -103,4 +103,4 @@ const Body = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(Body), { ssr: false });
+export default Body;

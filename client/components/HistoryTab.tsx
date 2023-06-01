@@ -1,5 +1,3 @@
-import dynamic from 'next/dynamic';
-
 const HistoryTab: any = (): any => {
     return (<div className="flex items-center justify-start w-full">
         <div className="w-10"></div>
@@ -21,5 +19,5 @@ const HistoryTab: any = (): any => {
     )
 }
 
-export default dynamic(() => Promise.resolve(HistoryTab), { ssr: false });
+export default HistoryTab;
   

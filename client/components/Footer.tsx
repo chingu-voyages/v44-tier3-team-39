@@ -1,5 +1,3 @@
-import dynamic from 'next/dynamic';
-
 const Footer = () => {
   return (
     <div className='flex justify-between items-center w-full bg-white mt-10 border-t-2 border-gray-300 px-10'>
@@ -15,4 +13,4 @@ const Footer = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(Footer), { ssr: false });
+export default Footer;
