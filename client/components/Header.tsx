@@ -11,9 +11,13 @@ const Header = () => {
         router.push('/register');
       };
 
+      const routerLandingPage = () => {
+        router.push('/landing');
+      };
+
     return (
       <div className='flex justify-between items-center shadow-md w-full bg-white mb-5 px-10 sticky top-0'>
-        <div className='font-bold text-2xl p-4'>Milestone</div>
+        <a onClick={routerLandingPage} className='font-bold text-2xl p-4 cursor-pointer'>Milestone</a>
         <div className='text-blue-400 p-4'>
             <a onClick={routerLoginPage} className="mr-4 cursor-pointer">Login</a>
             <a onClick={routerRegisterPage} className="cursor-pointer">Register</a>
