@@ -63,7 +63,7 @@ function Landing() {
                         Try it now!
                     </p>
                     <Link
-                        href="/dashboard"
+                        href="/"
                         className="absolute left-[166px] top-[120px] z-20"
                     >
                         <button className="rounded-lg bg-blue-600 text-white px-12 py-2 text-center w-full">
