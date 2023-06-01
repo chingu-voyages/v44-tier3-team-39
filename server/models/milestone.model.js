@@ -16,7 +16,7 @@ const milestoneSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['completed', 'in-progress', 'not-started', 'abandoned'],
+        enum: ['completed', 'In Progress', 'not-started', 'abandoned'],
         visibility: {
             type: String,
             enum: ['public', 'private'],
@@ -27,8 +27,7 @@ const milestoneSchema = new Schema({
     },
     owner: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        ref: 'User'
     },
     collaborators: [
         {
@@ -38,7 +37,7 @@ const milestoneSchema = new Schema({
     ],
     tags: [
         {
-            type: String,
+            type: String
         }
     ]
 }, {

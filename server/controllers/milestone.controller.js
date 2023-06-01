@@ -8,20 +8,30 @@ import asyncHandler from 'express-async-handler';
 //@desc Get all Milestones
 // @route Get /milestones
 // @access Private
-export const getAllMilestones = asyncHandler( async (req, res) => {
-    const milestones = await Milestone.find().lean()
+export const getAllMilestones = asyncHandler(async (req, res) => {
+  const { owner } = req.query;
+  let milestones;
 
-    if(!milestones?.length) {
-        return res.status(400).json({ message: 'No milestones found' })
-    }
+  if (owner) {
+    milestones = await Milestone.find({ owner }).lean();
+  } else {
+    milestones = await Milestone.find({ owner: { $exists: false } }).lean();
+  }
 
-    const milestonesWithUser = await Promise.all(milestones.map(async (milestone) => {
-        const user = await User.findById(milestone.user).lean().exec()
-        return {...milestone, displayName: user.username.displayName}
-    }))
-    res.json(milestonesWithUser)
-} )
+  if (!milestones?.length) {
+    return res.status(400).json({ message: 'No milestones found' });
+  }
 
+  const milestonesWithUser = await Promise.all(
+    milestones.map(async (milestone) => {
+      const user = await User.findById(milestone.user).lean().exec();
+      const displayName = user?.username?.displayName || 'Unknown';
+      return { ...milestone, displayName };
+    })
+  );
+
+  res.json(milestonesWithUser);
+});
 
 //@desc Get one Milestone
 // @route Get /milestone
@@ -40,23 +50,32 @@ export const getOneMilestone = asyncHandler( async (req, res) => {
 // @desc Create New Milestone
 // @route POST /milestones
 // @access Public
-export const createNewMilestone = asyncHandler( async (req, res) => {
-    const { title, description, deadline, status, owner} = req.body
-
-    if(!title || !description?.description.length < 10 || !deadline || !status || !owner ) {
-        return res.status(400).json({message: 'All milestone fields required /title, description > 10 characters, deadline set after today, status, owner, createdAt  '})
+export const createNewMilestone = asyncHandler(async (req, res) => {
+    const { title, description, deadline, status, owner } = req.body;
+  
+    if (!title || !description || description.length < 10 || !deadline || !status) {
+      return res.status(400).json({
+        message: 'All milestone fields required: title, description (minimum 10 characters), deadline, and status'
+      });
     }
-    const milestone = await Milestone.create({title, description, deadline, status, owner})
-    if( milestone ) {
-        if(milestone.status.visibility === 'private') {
-            hashedOwnerName = 'hidden'
-            milestone.owner.displayName = hashedOwnerName
-        }
-        res.status(201).json({message: `New milestone ${milestone.milestoneNum} : ${milestone.title} created`})
-    } else {
-        res.status(400).json({ message: 'Invalid data received' })
+  
+    try {
+      let milestone;
+      if (owner) {
+        milestone = await Milestone.create({ title, description, deadline, status, owner });
+      } else {
+        milestone = await Milestone.create({ title, description, deadline, status });
+      }
+  
+      res.status(201).json({
+        message: `New milestone ${milestone._id}: ${milestone.title} created`,
+        milestone
+      });
+    } catch (error) {
+      res.status(500).json({ message: 'An error occurred while creating the milestone' });
     }
-} )
+  });
+  
 
 // @desc Update a Milestone
 // @route PATCH /milestones

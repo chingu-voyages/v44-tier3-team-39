@@ -12,10 +12,13 @@ const DynamicBody = dynamic(() => import('../components/Body'), {
 
 
 export default function Home() {
+  const milestones: Milestone[] = []; // Provide the actual milestones data here
+
     return (
+      
         <main className="flex flex-col justify-center items-center w-full">
             <DynamicHeader />
-           <DynamicBody />
+           <DynamicBody milestones={milestones}/>
            <DynamicFooter />
         </main>
     )

@@ -1,11 +1,10 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-// Load tags from tags.json file
-const tagsFilePath = path.resolve(__dirname, 'tags.json');
+const tagsFilePath = path.resolve(new URL('./tags.json', import.meta.url).pathname);
 const tagsData = fs.readFileSync(tagsFilePath);
 const existingTags = JSON.parse(tagsData);
-const BANNEDTAGS = ['bad words', 'more bad words', 'worst bad words']
+const BANNEDTAGS = ['bad words', 'more bad words', 'worst bad words'];
 
 const tagsWare = async (req, res, next) => {
   const { tags } = req.body;
@@ -41,4 +40,4 @@ const tagsWare = async (req, res, next) => {
   next();
 };
 
-module.exports = tagsWare;
+export default tagsWare;

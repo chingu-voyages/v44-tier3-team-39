@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --detectOpenHandles",
-    "test:watch": "jest --watch",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
     "main": "server.js",
     "start": "node index",
     "dev": "nodemon index"
@@ -15,9 +15,22 @@
       "^.+\\.js$": "babel-jest"
     },
     "testEnvironment": "node",
+    "globals": {
+      "NODE_ENV": "test"
+    },
     "setupFilesAfterEnv": [
       "./test/setup.js"
-    ]
+    ],
+    "testRunner": "jest-circus/runner",
+    "testMatch": [
+      "**/__tests__/**/*.js"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/(?!(@babel)/)"
+    ],
+    "verbose": true,
+    "testURL": "http://localhost/",
+    "extensionsToTreatAsEsm": [ ".jsx", ".ts", ".tsx"]
   },
   "type": "module",
   "keywords": [],
@@ -38,12 +51,14 @@
     "mongoose": "^7.1.1",
     "mongoose-sequence": "^5.3.1",
     "parser": "^0.1.4",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
-    "@babel/preset-env": "^7.21.5",
+    "@babel/preset-env": "^7.22.4",
     "@babel/register": "^7.21.0",
+    "babel-jest": "^29.5.0",
     "jest": "^29.5.0",
     "mongodb-memory-server": "^8.12.2",
     "nodemon": "^2.0.22",
