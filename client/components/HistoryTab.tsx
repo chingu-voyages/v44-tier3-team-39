@@ -19,5 +19,5 @@ const HistoryTab: any = (): any => {
     )
 }
 
-  export default HistoryTab;
+export default HistoryTab;
   
