@@ -4,7 +4,7 @@ const BuildClient = ({ req }: { req: any }): AxiosInstance => {
   if (typeof window === 'undefined') {
     // We are on the server
     return axios.create({
-      baseURL: 'http://localhost:8000',
+      baseURL: 'http://localhost:4000',
       headers: req.headers,
     });
   } else {
