@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-
+import BuildClient from '@/api/buildClient';
+import { AxiosError, AxiosResponse } from 'axios';
+import { useDispatch } from 'react-redux';
+import { loginSuccess, loginFailure } from '@/store/reducers/userSlice';
+import Cookies from 'js-cookie';
 const LoginPage = () => {
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const routerRegisterPage = () => {
         router.push('/register');
@@ -14,10 +16,27 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: Add login logic here
-        console.log('Login form submitted!');
+        try {
+          const client = BuildClient({ req: undefined }); // No need to pass req when making client-side requests
+          const response: AxiosResponse = await client.post('/api/users/login', {
+              email,
+              password
+          });
+  
+          console.log('Login response:', response.data);
+          // TODO: Handle successful registration, such as redirecting to a success page
+          dispatch(loginSuccess(response.data.user));
+           // Set the session token in the cookie
+    Cookies.set('session_token', response.data.token);
+          router.push('/profile'); 
+      } catch (error: any) {
+        console.error('Login error:', error);
+        // TODO: Handle login error, such as displaying an error message
+        dispatch(loginFailure(error.response?.data?.message || error.message));
+      }
+    
     };
 
     return (
@@ -70,9 +89,9 @@ const LoginPage = () => {
 export default function Home() {
     return (
         <main>
-            <Header />
+            
             <LoginPage />
-            <Footer />
+           
         </main>
     )
 }

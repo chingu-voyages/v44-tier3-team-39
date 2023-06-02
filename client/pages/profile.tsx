@@ -1,10 +1,11 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import useRequest from '../hooks/use-request';
-import HistoryTab from './HistoryTab';
-import BuildClient from '@/api/buildClient';
+import { RootState } from '@/store/rootReducer';
 import { useRouter } from 'next/router';
-
+import HistoryTab from '@/components/HistoryTab';
+import useRequest from '@/hooks/use-request';
+import BuildClient from '@/api/buildClient';
+import { updateMilestones } from '@/store/reducers/userSlice';
 interface Milestone {
   _id: string;
   title: string;
@@ -22,16 +23,17 @@ interface UserState {
 interface User {
   user: string;
 }
-
-const Body = () => {
+const Profile = () => {
+  const user: any = useSelector((state: RootState) => state.user?.user);
+  const router = useRouter();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('');
   const [deadline, setDeadline] = useState('');
   const [tags, setTags] = useState('');
-  const [milestones, setMilestones] = useState<Milestone[]>([]);
-  const owner: string | null = useSelector((state: UserState) => state.user?.user || null);
-  const router = useRouter();
+  const [milestones, setMilestones] = useState<Milestone[]>(user?.milestones || []);
+  const owner: any = useSelector((state: UserState) => state.user?.user || null);
+  
 
   const { doRequest, errors } = useRequest({
     url: 'http://localhost:4000/api/milestones/milestones',
@@ -41,11 +43,18 @@ const Body = () => {
       description,
       status,
       deadline,
-      owner,
+      owner: owner?.id , 
     },
     onSuccess: async (data) => {
       console.log('Data:', data);
       // Add the new milestone to the milestones state
+      console.log({
+        title,
+        description,
+        status,
+        deadline,
+        owner : owner.id , 
+      })
       await fetchMilestones();
       setTitle('');
       setDescription('');
@@ -54,34 +63,47 @@ const Body = () => {
       setTags('');
     },
   });
-
+const dispatch = useDispatch()
   const fetchMilestones = async () => {
-    try {
-      const client = BuildClient({ req: undefined });
-      const response = await client.get('api/milestones/milestones');
-      const fetchedMilestones: Milestone[] = response.data;
-      setMilestones(fetchedMilestones);
-      console.log('Fetched milestones:', fetchedMilestones);
-    } catch (error) {
-      console.error('Error fetching milestones:', error);
-    }
-  };
+  try {
+    const client = BuildClient({ req: undefined });
+    const response = await client.get(`api/milestones/milestones?owner=${owner.id}`);
+    const fetchedMilestones: Milestone[] = response.data;
+    setMilestones(fetchedMilestones);
+    dispatch(updateMilestones(fetchedMilestones)); // Dispatch an action to update the milestones in Redux state
+    console.log('Fetched milestones:', fetchedMilestones);
+  } catch (error) {
+    console.error('Error fetching milestones:', error);
+  }
+};
 
-  const dispatch = useDispatch();
+const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+  doRequest();
+  // Fetch the updated milestones
+  await fetchMilestones();
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    doRequest();
-  };
+  // Reset the form fields
+  setTitle('');
+  setDescription('');
+  setStatus('');
+  setDeadline('');
+  setTags('');
+};
+
 
   useEffect(() => {
-    fetchMilestones();
-    if (owner) {
-      router.push('/profile'); // Redirect to the profile page
+    if (!user) {
+      window.location.href = '/login'; // Replace '/login' with the actual login page URL
     }
-  }, [owner, router]);
+  }, [user]);
 
-  const milestoneList = milestones.map((milestone) => (
+  if (!user) {
+    return null; // Optional: Render a loading state or message while redirecting
+  }
+
+
+  const milestoneList = milestones.map((milestone:any) => (
     <div key={milestone._id}>
       <div className="mt-8 flex items-center justify-start">
         <div className="rounded-full bg-blue-400 w-10 h-10"></div>
@@ -179,4 +201,6 @@ const Body = () => {
   );
 };
 
-export default Body;
+
+
+export default Profile;
