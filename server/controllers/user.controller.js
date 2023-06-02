@@ -25,7 +25,7 @@ export const createUser = asyncHandler(async (req, res) => {
     if (user) {
         const token = generateToken(user._id);
 
-        req.session.token = token; // Set the token in the session
+       
 
         res.status(201).json({
             token,
@@ -50,10 +50,10 @@ export const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email }).populate("milestones");
 
-    // If user exists and passwords match, generate JWT token and save in session
+    // If user exists and passwords match, generate JWT token a
     if (user && (await user.matchPassword(password))) {
         const token = generateToken(user._id);
-        req.session.token = token;
+        
 
         // Send token and user data to client
         res.json({
@@ -100,9 +100,7 @@ export const updateUser = asyncHandler(async (req, res) => {
     // Generate a new token for the updated user
     const token = generateToken(updatedUser._id);
 
-    // Set the new token in the user's session
-    req.session.token = token;
-
+   
     // Return updated user and new token
     res.json({
         token,
@@ -137,14 +135,12 @@ export const deleteUser = asyncHandler(async (req, res) => {
 // @route POST /logout
 // @access Private
 export const logout = asyncHandler(async (req, res) => {
-    if (req.session) {
-        // check if session exists
-        req.session.maxAge = 0; // set maxAge to 0 to expire the cookie immediately
-        res.json({ message: "Logout successful" }); // send success message to client
-    } else {
-        res.json({ message: "No session to logout from" }); // send message if no session exists
-    }
-});
+    // Delete the token from client-side storage (e.g., local storage or cookie)
+    // This effectively logs out the user
+  
+    res.json({ message: "Logout successful" });
+    
+  });
 // @desc Get all Users
 // @route Get /users
 // @access Public

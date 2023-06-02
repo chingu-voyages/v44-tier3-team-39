@@ -30,7 +30,11 @@
     ],
     "verbose": true,
     "testURL": "http://localhost/",
-    "extensionsToTreatAsEsm": [ ".jsx", ".ts", ".tsx"]
+    "extensionsToTreatAsEsm": [
+      ".jsx",
+      ".ts",
+      ".tsx"
+    ]
   },
   "type": "module",
   "keywords": [],
@@ -40,7 +44,6 @@
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "cookie": "^0.5.0",
-    "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",

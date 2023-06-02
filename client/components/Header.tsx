@@ -4,16 +4,43 @@ import { RootState } from '@/store/rootReducer';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
+import axios, { AxiosRequestConfig } from 'axios';
+import BuildClient from '@/api/buildClient';
 
+
+
+async function fetchData() {
+  const token = Cookies.get("session_token");
+  console.log(token)
+  try {
+    const client = BuildClient({});
+    const config = {
+      headers: {
+        authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const response = await client.post('/api/users/logout', config);
+    const data = response.data;
+    // Handle the response data
+    console.log(data)
+  } catch (error) {
+    // Handle the error
+    console.error(error);
+  }
+}
 const Header = () => {
   const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
   const dispatch = useDispatch();
   const router = useRouter();
 
   const handleLogout = () => {
+    fetchData()
     Cookies.remove('session_token');
     // Dispatch the logout action
     dispatch(logout());
+   
     // TODO: Perform any necessary cleanup or redirection
     router.push('/login');
   };

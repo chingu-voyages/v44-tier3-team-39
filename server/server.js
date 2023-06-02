@@ -1,6 +1,6 @@
 import path from "path";
 import express from "express";
-import session from 'cookie-session';
+
 import dotenv from "dotenv";
 import cors from 'cors'
 import corsOptions from './config/corsOptions.js'
@@ -27,14 +27,7 @@ crypto.randomBytes(8).toString('hex'),
 crypto.randomBytes(8).toString('hex')
 ];
 
-// Set up cookie-session middleware to handle session management with client-side cookies
-app.use(
-    session({
-      name: 'session', // name of the cookie that will be set on the client-side
-      keys: keys, // an array of secret keys used to sign the cookie and verify its integrity
-      maxAge: 24 * 60 * 60 * 1000 // maximum age of the cookie, in milliseconds (24 hours in this case)
-    })
-  );
+
 
 // Parse JSON in request body
 app.use(express.json());

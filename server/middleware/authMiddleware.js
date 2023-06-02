@@ -8,11 +8,11 @@ import User from '../models/user.model.js';
 export const protect = asyncHandler(async (req, res, next) => {
   let token;
   // Checks if the token in the cookie and header, if any, as convention, starts with Bearer
-  if (req.session && req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+  if (req.body.headers.authorization && req.body.headers.authorization.startsWith('Bearer')) {
     try {
       const JWT_SECRET =  "1234";
       // Splits into two array items at the space, 'Bearer' at position 0 and token at pos 1
-      token = req.headers.authorization.split(' ')[1];
+      token = req.body.headers.authorization.split(' ')[1];
       // Decodes the token body (user id, issued at, expires at)
       const decoded = jwt.verify(token, JWT_SECRET);
       // Sets req.user to authenticated users profile minus the password, now accessible on all protected routes
