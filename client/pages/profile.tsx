@@ -119,11 +119,12 @@ const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     </div>
   ));
   return (
-    <div className="h-full w-full overflow-hidden p-10">
-      <div className="flex flex-row w-100 h-full mx-10">
-        <div className="w-2/4 h-full flex flex-col items-center m-5">
-          <div className="bg-white rounded-lg w-2/3 mt-8">
-            <div className="p-4 m-5">
+    <div className="h-full w-full overflow-hidden ">
+    <div className="flex flex-col md:flex-row w-full h-full">
+      <div className="w-full md:w-1/2 h-full flex flex-col items-center">
+          <div className="bg-white rounded-lg w-full md:w-2/3 mt-8">
+  <div className="mx-2 md:mx-5">
+    <div className="p-2 md:p-4">
               <form onSubmit={handleSubmit}>
                 <div className="font-bold text-xl mb-4">Add New Milestone</div>
 
@@ -192,15 +193,15 @@ const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
                 </div>
               </form>
             </div>
+            </div>
           </div>
         </div>
 
-        <div className="w-2/4 h-full">{milestoneList}</div>
+        <div className="w-full md:w-1/2 h-full">{milestoneList}</div>
       </div>
     </div>
   );
 };
-
 
 
 export default Profile;
