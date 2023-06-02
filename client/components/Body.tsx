@@ -92,8 +92,10 @@ const Body = () => {
             year: 'numeric',
           })}
         </div>
+        
       </div>
-      <HistoryTab />
+      
+      <HistoryTab milestone = {milestone}/>
     </div>
   ));
   return (

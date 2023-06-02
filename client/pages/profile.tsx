@@ -115,7 +115,7 @@ const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
           })}
         </div>
       </div>
-      <HistoryTab />
+      <HistoryTab milestone={milestone}/>
     </div>
   ));
   return (
