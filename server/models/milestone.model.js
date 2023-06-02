@@ -16,7 +16,7 @@ const milestoneSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['completed', 'In Progress', 'not-started', 'abandoned'],
+        enum: ['Completed', 'In Progress', 'Not Started'],
         visibility: {
             type: String,
             enum: ['public', 'private'],

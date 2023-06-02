@@ -10,6 +10,7 @@ import asyncHandler from 'express-async-handler';
 // @access Private
 export const getAllMilestones = asyncHandler(async (req, res) => {
   const { owner } = req.query;
+  
   let milestones;
 
   if (owner) {
@@ -51,31 +52,35 @@ export const getOneMilestone = asyncHandler( async (req, res) => {
 // @route POST /milestones
 // @access Public
 export const createNewMilestone = asyncHandler(async (req, res) => {
-    const { title, description, deadline, status, owner } = req.body;
-  
-    if (!title || !description || description.length < 10 || !deadline || !status) {
-      return res.status(400).json({
-        message: 'All milestone fields required: title, description (minimum 10 characters), deadline, and status'
-      });
+  const { title, description, deadline, status, owner } = req.body;
+
+  if (!title || !description || description.length < 10 || !deadline || !status) {
+    return res.status(400).json({
+      message: 'All milestone fields required: title, description (minimum 10 characters), deadline, and status'
+    });
+  }
+
+  try {
+    let milestone;
+    if (owner) {
+      milestone = await Milestone.create({ title, description, deadline, status, owner });
+    } else {
+      milestone = await Milestone.create({ title, description, deadline, status });
     }
-  
-    try {
-      let milestone;
-      if (owner) {
-        milestone = await Milestone.create({ title, description, deadline, status, owner });
-      } else {
-        milestone = await Milestone.create({ title, description, deadline, status });
-      }
-  
-      res.status(201).json({
-        message: `New milestone ${milestone._id}: ${milestone.title} created`,
-        milestone
-      });
-    } catch (error) {
-      res.status(500).json({ message: 'An error occurred while creating the milestone' });
-    }
-  });
-  
+
+    // Append the created milestone to the user's milestones array
+    await User.findByIdAndUpdate(owner, { $push: { milestones: milestone._id } });
+
+    res.status(201).json({
+      message: `New milestone ${milestone._id}: ${milestone.title} created`,
+      milestone
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'An error occurred while creating the milestone' });
+  }
+});
+
 
 // @desc Update a Milestone
 // @route PATCH /milestones
