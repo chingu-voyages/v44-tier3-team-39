@@ -1,26 +1,33 @@
-import React, { FormEvent, useEffect, useState, useMemo } from "react";
-import Link from "next/link";
+import React, {
+    FormEvent,
+    useEffect,
+    useState,
+    useMemo,
+    MouseEventHandler,
+} from "react";
+import { updateMilestones, deleteMilestones } from "@/store/reducers/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
-import { useRouter } from "next/router";
-// import HistoryTab from '@/components/HistoryTab';
 import useRequest from "@/hooks/use-request";
 import BuildClient from "@/api/buildClient";
-import { updateMilestones } from "@/store/reducers/userSlice";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import axios from "axios";
 interface Milestone {
     _id: string;
     title: string;
     description: string;
-    status: string;
     deadline: string;
+    status: string;
     owner: string;
+    collaborators: [];
+    tags: string;
     // Add any other properties of the Milestone object
 }
 
-interface UserState {
-    user: User | null;
-}
+// interface UserState {
+//     user: User | null;
+// }
 
 interface User {
     user: string;
@@ -30,14 +37,19 @@ const MilestoneEdit = () => {
     const router = useRouter();
     const mId = router.query._id;
     const user: any = useSelector((state: RootState) => state.user?.user);
+    // const [milestone, setMilestone] = useState<Milestone>({});
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [status, setStatus] = useState("");
     const [deadline, setDeadline] = useState("");
     const [tags, setTags] = useState("");
+    // const [owner, setOwner] = useState("");
+    const [collaborators, setcollaborators] = useState([]);
     const [textCount, setTextCount] = useState(0);
     const maxDescriptionLength = 500;
-
+    // const owner: any = useSelector(
+    //     (state: UserState) => state.user?.user || null
+    // );
     const descriptionLength = useMemo(() => {
         return description.length;
     }, [description]);
@@ -50,91 +62,94 @@ const MilestoneEdit = () => {
         }
     };
 
+    const tagHandler = (e: React.FormEvent<HTMLInputElement>) => {
+        setTags(e.currentTarget.value);
+    };
+
     useEffect(() => {
         const milestoneToEdit = user.milestones.filter((item: any) => {
             return item._id == router.query._id;
         });
-        console.log(milestoneToEdit);
-        setTitle(milestoneToEdit[0].title);
-        setDescription(milestoneToEdit[0].description);
-        setStatus(milestoneToEdit[0].status);
-        // setDeadline(milestoneToEdit[0].deadline);
+        const milestone: Milestone = milestoneToEdit[0];
+        // console.log(milestone);
+        setTitle(milestone.title);
+        setDescription(milestone.description);
         setDeadline(
-            new Date(milestoneToEdit[0].deadline).toLocaleDateString(
-                undefined,
-                {
-                    month: "numeric",
-                    day: "numeric",
-                    year: "numeric",
-                }
-            )
+            new Date(milestone.deadline).toLocaleDateString(undefined, {
+                month: "numeric",
+                day: "numeric",
+                year: "numeric",
+            })
         );
-        setTags(milestoneToEdit[0].tags);
-        description;
-    }, [user]);
+        setStatus(milestone.status);
+        // setOwner(milestone.owner);
+        setcollaborators(milestone.collaborators);
+        // TODO: convert tags string into an array for better separation addition/separation.
+        setTags(milestone.tags);
+    }, []);
 
     const { doRequest, errors } = useRequest({
-        url: `http://localhost:4000/api/milestones/edit/:${mId}`,
+        url: `http://localhost:4000/api/milestones/milestones/${mId}`,
         method: "patch",
         body: {
             title,
             description,
-            status,
             deadline,
-            owner: user?.id,
+            status,
+            owner: user.id,
+            collaborators,
+            tags,
         },
         onSuccess: async (data) => {
+            console.log("patch successful");
+            await fetchMilestones();
             router.push("/profile");
-            // console.log("Data:", data);
-            // Add the new milestone to the milestones state
-            // console.log({
-            //     title,
-            //     description,
-            //     status,
-            //     deadline,
-            //     owner: owner.id,
-            // });
-            // await fetchMilestones();
-            // setTitle("");
-            // setDescription("");
-            // setStatus("");
-            // setDeadline("");
-            // setTags("");
         },
+        // onFailure: async (errors) =>{
+
+        // }
     });
+
+    const dispatch = useDispatch();
+    const fetchMilestones = async () => {
+        try {
+            const client = BuildClient({ req: undefined });
+            const response = await client.get(
+                `api/milestones/milestones?owner=${user.id}`
+            );
+            const fetchedMilestones: Milestone[] = response.data;
+            dispatch(updateMilestones(fetchedMilestones)); // Dispatch an action to update the milestones in Redux state
+            console.log("Fetched milestones:", fetchedMilestones);
+        } catch (error) {
+            console.error("Error fetching milestones:", error);
+        }
+    };
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
         doRequest();
-        // axios
-        //     .put(
-        //         `http://localhost:4000/api/milestones/milestones/${router.query._id}`,
-        //         {
-        //             title,
-        //             description,
-        //             deadline,
-        //             status,
-        //             owner: user?.id,
-        //         }
-        //     )
-        //     .then(() => {
-        //         console.log("Update successful");
-        //         router.push("/profile");
-        //     })
-        //     .catch((err) => {
-        //         console.log("patch failed.");
-        //         console.log(err);
-        //     });
-
-        // Fetch the updated milestones
         // await fetchMilestones();
+    };
 
-        // Reset the form fields
-        // setTitle("");
-        // setDescription("");
-        // setStatus("");
-        // setDeadline("");
-        // setTags("");
+    const deleteHandler = async () => {
+        try {
+            const client = BuildClient({ req: undefined });
+
+            // await axios.delete(`api/milestones/milestones/${mId}`)
+
+            const response = await client.delete(
+                `api/milestones/milestones/${mId}`
+            );
+            console.log(response.data); // delete successful
+
+            dispatch(deleteMilestones(mId));
+            console.log("store updated");
+
+            router.push("/profile");
+        } catch (error) {
+            console.error("Error fetching milestones:", error);
+        }
     };
 
     return (
@@ -216,7 +231,7 @@ const MilestoneEdit = () => {
                                     name="tags"
                                     placeholder="Tags (separated by commas)"
                                     value={tags}
-                                    onChange={(e) => setTags(e.target.value)}
+                                    onChange={tagHandler}
                                     className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                                 />
                             </div>
@@ -237,6 +252,8 @@ const MilestoneEdit = () => {
                                 </button>
                             </div>
                         </form>
+                        <button onClick={deleteHandler}>Delete</button>
+                        {/* <div>{errors}</div> */}
                     </div>
                 </div>
             </div>
