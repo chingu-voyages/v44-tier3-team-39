@@ -1,3 +1,6 @@
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/rootReducer";
+
 import Link from "next/link";
 interface Milestone {
     _id: string;
@@ -7,6 +10,7 @@ interface Milestone {
 }
 
 const HistoryTab: React.FC<{ milestone: Milestone }> = ({ milestone }) => {
+    const user: any = useSelector((state: RootState) => state.user?.user);
     return (
         <div className="flex items-center justify-start w-full">
             <div className="w-10"></div>
@@ -16,12 +20,16 @@ const HistoryTab: React.FC<{ milestone: Milestone }> = ({ milestone }) => {
                         <div className="font-semiold text-md p-4">
                             {milestone.title}
                         </div>
-                        <Link
-                            href={`/edit/${milestone._id}`}
-                            className=" font-semibold text-green-600 p-4"
-                        >
-                            EDIT
-                        </Link>
+                        {user ? (
+                            <Link
+                                href={`/edit/${milestone._id}`}
+                                className=" font-semibold text-green-600 p-4"
+                            >
+                                EDIT
+                            </Link>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                     <div className="p-4">{milestone.description}</div>
                     {/* <div className="ml-4 mb-4">
