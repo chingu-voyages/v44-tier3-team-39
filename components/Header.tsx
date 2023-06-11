@@ -67,7 +67,7 @@ const Header = () => {
           onClick={routerLandingPage}
           className="font-bold text-2xl p-4 cursor-pointer"
         >
-          Milestone
+          Milestoned
         </span>
       </Link>
       <div className="text-blue-400 p-4">
