@@ -1,45 +1,23 @@
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/rootReducer";
+const HistoryTab: any = (): any => {
+    return (<div className="flex items-center justify-start w-full">
+        <div className="w-10"></div>
+        <div className="ml-4 w-5/6">
+            <div className="bg-white rounded-lg mt-4 pb-1">
+                <div className="font-bold text-md p-4">Graduated from Coding Boot Camp</div>
+                <div className="p-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras lobortis, ex nec pretium convallis, mauris ipsum vehicula risus, et mollis massa ante quis diam. Integer pellentesque porta orci vitae mollis. Vestibulum tempus felis efficitur egestas dictum. Mauris congue faucibus nisi, nec scelerisque urna.
 
-import Link from "next/link";
-interface Milestone {
-    _id: string;
-    title: string;
-    description: string;
-    // Add any other properties of the Milestone object
-}
-
-const HistoryTab: React.FC<{ milestone: Milestone }> = ({ milestone }) => {
-    const user: any = useSelector((state: RootState) => state.user?.user);
-    return (
-        <div className="flex items-center justify-start w-full">
-            <div className="w-10"></div>
-            <div className="ml-4 w-5/6">
-                <div className="bg-white rounded-lg mt-4 pb-1">
-                    <div className="flex justify-between">
-                        <div className="font-semiold text-md p-4">
-                            {milestone.title}
-                        </div>
-                        {user ? (
-                            <Link
-                                href={`/edit/${milestone._id}`}
-                                className=" font-semibold text-green-600 p-4"
-                            >
-                                EDIT
-                            </Link>
-                        ) : (
-                            <></>
-                        )}
-                    </div>
-                    <div className="p-4">{milestone.description}</div>
-                    {/* <div className="ml-4 mb-4">
-              <button className="bg-red-100 rounded-lg px-8 py-2 mr-4">Python</button>
-              <button className="bg-indigo-100 rounded-lg px-8 py-2 mr-4">JS</button>
-            </div> */}
+                    Lorem.
+                    Lorem.
+                    Lorem.</div>
+                <div className="ml-4 mb-4">
+                    <button className="bg-red-100 rounded-lg px-8 py-2 mr-4">Python</button>
+                    <button className="bg-indigo-100 rounded-lg  px-8 py-2 mr-4">JS</button>
                 </div>
             </div>
         </div>
-    );
-};
+    </div>
+    )
+}
 
 export default HistoryTab;
+  

@@ -27,14 +27,14 @@ const useRequest = ({
 
       return response.data;
     } catch (err: any) {
-        if (err.response && err.response.data ) {
+        if (err.response && err.response.data && err.response.data.errors) {
           setErrors(
             <div className="alert alert-danger">
               <h4>Ooops....</h4>
               <ul className="my-0">
-                {
-                  <li >{err.response.data.message}</li>
-                }
+                {err.response.data.errors.map((err: { message: string }) => (
+                  <li key={err.message}>{err.message}</li>
+                ))}
               </ul>
             </div>
           );
@@ -46,7 +46,6 @@ const useRequest = ({
             </div>
           );
         }
-        
       }
   };
 

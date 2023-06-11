@@ -5,7 +5,8 @@ import { AxiosResponse } from 'axios';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '@/store/reducers/userSlice';
 import Cookies from 'js-cookie';
-
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const RegisterPage = () => {
     const router = useRouter();
@@ -118,9 +119,9 @@ const RegisterPage = () => {
 export default function Home() {
     return (
         <main>
-  
+          <Header />
             <RegisterPage />
-          
+          <Footer />
         </main>
     )
 }

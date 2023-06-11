@@ -2,118 +2,91 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useRequest from '../hooks/use-request';
 import HistoryTab from './HistoryTab';
-import BuildClient from '@/api/buildClient';
-import { useRouter } from 'next/router';
+import axios from 'axios';
 
-interface Milestone {
-  _id: string;
-  title: string;
-  description: string;
-  status: string;
-  deadline: string;
-  owner: string;
-  // Add any other properties of the Milestone object
-}
+// export interface Milestone {
+//   id: string;
+//   title: string;
+//   description: string;
+//   status: string;
+//   deadline: string;
+//   owner: string;
+//   // Add any other properties of the Milestone object
+// }
 
-interface UserState {
-  user: User | null;
-}
+// interface UserState {
+//   user: User | null;
+// }
+// interface User {
+//   user: string;
+// }
 
-interface User {
-  user: string;
-}
+// interface BodyProps {
+//   milestones: Milestone[];
+// }
+
+// const Body: React.FC<BodyProps> = ({ milestones }) => {
+//   const [title, setTitle] = useState('');
+//   const [description, setDescription] = useState('');
+//   const [status, setStatus] = useState('');
+//   const [deadline, setDeadline] = useState('');
+//   const [tags, setTags] = useState('');
+
+//   const owner: string | null = useSelector((state: UserState) => state.user?.user || null);
+
+
+//   const { doRequest, errors } = useRequest({
+//     url: '/api/milestones/milestones',
+//     method: 'post',
+//     body: {
+//       title,
+//       description,
+//       status,
+//       deadline,
+//       owner,
+//     },
+//     onSuccess: (data) => {
+//       console.log('Data:', data);
+//     },
+//   });
+  
+
+//   const dispatch = useDispatch();
+
+//   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+//     event.preventDefault();
+//     await doRequest();
+//   };
+
+//   useEffect(() => {
+//     const fetchMilestones = async () => {
+//       try {
+//         const response = await axios.get('http://localhost:4000/api/milestones/milestones');
+//         const milestones = response.data;
+//         console.log('Fetched milestones:', milestones);
+//       } catch (error) {
+//         console.error('Error fetching milestones:', error);
+//       }
+//     };
+
+//     // Call the fetchMilestones function
+//     fetchMilestones();
+//   }, []);
 
 const Body = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [status, setStatus] = useState('');
-  const [deadline, setDeadline] = useState('');
-  const [tags, setTags] = useState('');
-  const [milestones, setMilestones] = useState<Milestone[]>([]);
-  const owner: string | null = useSelector((state: UserState) => state.user?.user || null);
-  const router = useRouter();
-
-  const { doRequest, errors } = useRequest({
-    url: 'http://localhost:4000/api/milestones/milestones',
-    method: 'post',
-    body: {
-      title,
-      description,
-      status,
-      deadline,
-      owner,
-    },
-    onSuccess: async (data) => {
-      console.log('Data:', data);
-      // Add the new milestone to the milestones state
-      await fetchMilestones();
-      setTitle('');
-      setDescription('');
-      setStatus('');
-      setDeadline('');
-      setTags('');
-    },
-  });
-
-  const fetchMilestones = async () => {
-    try {
-      const client = BuildClient({ req: undefined });
-      const response = await client.get('api/milestones/milestones');
-      const fetchedMilestones: Milestone[] = response.data;
-      setMilestones(fetchedMilestones);
-      console.log('Fetched milestones:', fetchedMilestones);
-    } catch (error) {
-      console.error('Error fetching milestones:', error);
-    }
-  };
-
-  const dispatch = useDispatch();
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    doRequest();
-  };
-
-  useEffect(() => {
-    fetchMilestones();
-    if (owner) {
-      router.push('/profile'); // Redirect to the profile page
-    }
-  }, [owner, router]);
-
-  const milestoneList = milestones.map((milestone) => (
-    <div key={milestone._id}>
-      <div className="mt-8 flex items-center justify-start">
-        <div className="rounded-full bg-blue-400 w-10 h-10"></div>
-        <div className="ml-4 text-gray-500">
-          {new Date(milestone.deadline).toLocaleDateString(undefined, {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric',
-          })}
-        </div>
-      </div>
-      <HistoryTab milestone={milestone} />
-    </div>
-  ));
-
   return (
     <div className="h-full w-full overflow-hidden ">
-    <div className="flex flex-col md:flex-row w-full h-full">
-      <div className="w-full md:w-1/2 h-full flex flex-col items-center">
-          <div className="bg-white rounded-lg w-full md:w-2/3 mt-8">
-  <div className="mx-2 md:mx-5">
-    <div className="p-2 md:p-4">
-              <form onSubmit={handleSubmit}>
+      <div className="flex flex-row w-100 h-full mx-10">
+        <div className="w-2/4 h-full flex flex-col items-center m-5">
+          <div className="bg-white rounded-lg w-2/3 mt-8">
+            <div className="p-4 m-5">
+              <form>
                 <div className="font-bold text-xl mb-4">Add New Milestone</div>
-
                 <div className="mb-4">
                   <input
                     type="text"
                     name="title"
                     placeholder="Enter milestone title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
                     className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
@@ -121,16 +94,12 @@ const Body = () => {
                   <textarea
                     name="description"
                     placeholder="Enter description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
                     className="w-full h-40 border border-gray-300 rounded-md px-3 py-2 mt-1 resize-none focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   ></textarea>
                 </div>
                 <div className="mb-4">
                   <select
                     name="status"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
                     className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="" disabled>
@@ -146,8 +115,6 @@ const Body = () => {
                     type="text"
                     name="dateCompleted"
                     placeholder="Date completed (mm/dd/yyyy)"
-                    value={deadline}
-                    onChange={(e) => setDeadline(e.target.value)}
                     className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
@@ -156,13 +123,11 @@ const Body = () => {
                     type="text"
                     name="tags"
                     placeholder="Tags (separated by commas)"
-                    value={tags}
-                    onChange={(e) => setTags(e.target.value)}
                     className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div className="flex items-end justify-end mb-4 w-full">
-                  <div>{errors}</div>
+                  <div></div>
                   <button
                     type="submit"
                     className="bg-blue-500 rounded-lg text-white px-8 py-2 mr-4"
@@ -172,11 +137,38 @@ const Body = () => {
                 </div>
               </form>
             </div>
-            </div>
           </div>
         </div>
 
-        <div className="w-full md:w-1/2 h-full">{milestoneList}</div>
+        <div className="w-2/4 h-full">
+          <div className="mt-8 flex items-center justify-start">
+            <div className="rounded-full bg-blue-400 w-10 h-10"></div>
+            <div className="ml-4 text-gray-500">May 9, 2023</div>
+          </div>
+
+          <HistoryTab />
+
+          <div className="mt-8 flex items-center justify-start">
+            <div className="rounded-full bg-blue-400 w-10 h-10"></div>
+            <div className="ml-4 text-gray-500">February 1, 2023</div>
+          </div>
+
+          <HistoryTab />
+
+          <div className="mt-8 flex items-center justify-start">
+            <div className="rounded-full bg-blue-400 w-10 h-10"></div>
+            <div className="ml-4 text-gray-500">December 23, 2022</div>
+          </div>
+
+          <HistoryTab />
+
+          <div className="mt-8 flex items-center justify-start">
+            <div className="rounded-full bg-blue-400 w-10 h-10"></div>
+            <div className="ml-4 text-gray-500">October 3, 2022</div>
+          </div>
+
+          <HistoryTab />
+        </div>
       </div>
     </div>
   );

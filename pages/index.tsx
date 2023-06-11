@@ -3,6 +3,8 @@ import Image from "next/image";
 import { Libre_Baskerville, Kalam } from "next/font/google";
 import handPic from "../public/hand holding phone UPDATED without button.png";
 import arrowImg from "../public/arrow image.png";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 
 
@@ -93,9 +95,9 @@ function Landing() {
 export default function Home() {
     return (
         <main>
-            
+            <Header />
             <Landing />
-   
+            <Footer />
         </main>
     )
 }

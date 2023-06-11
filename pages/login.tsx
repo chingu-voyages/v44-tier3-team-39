@@ -5,6 +5,9 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { useDispatch } from 'react-redux';
 import { loginSuccess, loginFailure } from '@/store/reducers/userSlice';
 import Cookies from 'js-cookie';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
 const LoginPage = () => {
     const router = useRouter();
     const dispatch = useDispatch();
@@ -89,8 +92,9 @@ const LoginPage = () => {
 export default function Home() {
     return (
         <main>
-            
+            <Header />
             <LoginPage />
+            <Footer />
            
         </main>
     )
