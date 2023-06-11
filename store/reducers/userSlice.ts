@@ -10,7 +10,7 @@ interface Milestone {
     // Add any other properties of the Milestone object
 }
 
-interface UserState {
+export interface UserState {
     user: User | null;
     isAuthenticated: boolean;
     loading: boolean;
