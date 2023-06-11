@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Libre_Baskerville, Kalam } from "next/font/google";
-import handPic from "../public/hand holding phone UPDATED without button.png";
-import arrowImg from "../public/arrow image.png";
+import handPic from "../public/handHoldingPhone.png";
+import arrowImg from "../public/arrow.png";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
