@@ -20,7 +20,7 @@ const LoginPage = () => {
         e.preventDefault();
         try {
           const client = BuildClient({ req: undefined }); // No need to pass req when making client-side requests
-          const response: AxiosResponse = await client.post('/api/users/login', {
+          const response: AxiosResponse = await client.post('api/users/login', {
               email,
               password
           });

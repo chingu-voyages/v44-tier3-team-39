@@ -23,7 +23,7 @@ const RegisterPage = () => {
   
       try {
           const client = BuildClient({ req: undefined }); // No need to pass req when making client-side requests
-          const response: AxiosResponse = await client.post('/api/users/signup', {
+          const response: AxiosResponse = await client.post('api/users/signup', {
               firstname,
               lastname,
               email,

@@ -34,7 +34,7 @@ const Body = () => {
   const router = useRouter();
 
   const { doRequest, errors } = useRequest({
-    url: 'https://milestoned-api.onrender.com//api/milestones/milestones',
+    url: 'https://milestoned-api.onrender.com/api/milestones/milestones',
     method: 'post',
     body: {
       title,
@@ -58,7 +58,7 @@ const Body = () => {
   const fetchMilestones = async () => {
     try {
       const client = BuildClient({ req: undefined });
-      const response = await client.get('api/milestones/milestones');
+      const response = await client.get('/api/milestones/milestones');
       const fetchedMilestones: Milestone[] = response.data;
       setMilestones(fetchedMilestones);
       console.log('Fetched milestones:', fetchedMilestones);

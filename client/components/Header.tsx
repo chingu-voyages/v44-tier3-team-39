@@ -21,7 +21,7 @@ async function fetchData() {
       },
     };
 
-    const response = await client.post('/api/users/logout', config);
+    const response = await client.post('api/users/logout', config);
     const data = response.data;
     // Handle the response data
     console.log(data)

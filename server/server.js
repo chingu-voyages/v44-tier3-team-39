@@ -3,7 +3,7 @@ import express from "express";
 
 import dotenv from "dotenv";
 import cors from 'cors'
-import corsOptions from './config/corsOptions.js'
+
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import userRoutes from "./routes/user.routes.js";
 import milestoneRoutes from "./routes/milestone.routes.js";
@@ -19,7 +19,7 @@ dotenv.config();
 const app = express();
 
 
-app.use(cors(corsOptions))
+app.use(cors())
 
 // Generate two random 8-byte keys and store them in an array
 const keys = [
