@@ -41,7 +41,7 @@ const Profile = () => {
     );
 
     const { doRequest, errors } = useRequest({
-        url: "http://localhost:4000/api/milestones/milestones",
+        url: "https://milestoned-api.onrender.com//api/milestones/milestones",
         method: "post",
         body: {
             title,

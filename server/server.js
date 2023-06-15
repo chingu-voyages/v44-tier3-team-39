@@ -40,20 +40,9 @@ app.use("/api/users", userRoutes);
 app.use(notFound); // Middleware to handle 404 errors
 app.use(errorHandler); // Middleware to handle other errors
 
-// Settings for deployment
-// The production build will be in a directory called build in the frontend directory
-// This sets the build folder as a static directory to allow access to load the index.html
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "/client/build")));
-    // Gets anything (except /api routes)
-    app.get("*", (req, res) =>
-        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
-    );
-} else {
-    // Route to handle requests to the root URL in development mode
-    app.get("/", (req, res) => {
-        res.send("API is running...");
-    });
-}
-
+// Route to handle requests to the root URL
+app.get("/", (req, res) => {
+    res.send("API is running...");
+  });
+  
 export { app }

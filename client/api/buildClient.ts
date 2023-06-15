@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 const BuildClient = ({ req }: { req?: any }): AxiosInstance => {
-  const baseURL = 'http://localhost:4000';
+  const baseURL = 'https://milestoned-api.onrender.com/';
 
   if (typeof window === 'undefined') {
     // Server-side rendering (SSR)
