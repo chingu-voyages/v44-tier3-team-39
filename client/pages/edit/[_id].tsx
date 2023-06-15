@@ -12,6 +12,7 @@ import useRequest from "@/hooks/use-request";
 import BuildClient from "@/api/buildClient";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 import axios from "axios";
 interface Milestone {
     _id: string;
@@ -243,16 +244,31 @@ const MilestoneEdit = () => {
                                     </button>
                                 </Link>
                                 {/* <div>{errors}</div> */}
-                                <button
-                                    type="submit"
-                                    className="bg-green-600 rounded-lg text-white px-8 py-2 flex justify-between gap-1"
-                                >
-                                    Save
-                                    <i className="gg-check"></i>
-                                </button>
+                                <div className="flex gap-3">
+                                    <button
+                                        onClick={deleteHandler}
+                                        className="bg-slate-600 rounded-lg text-white px-8 py-2 flex justify-between gap-1"
+                                    >
+                                        Delete
+                                        {/* <img width="24" height="24" src="https://img.icons8.com/material-outlined/24/trash--v1.png" alt="trash--v1"/> */}
+                                        <Image
+                                            className="text-white invert"
+                                            width="24"
+                                            height="24"
+                                            src="https://img.icons8.com/material-outlined/24/trash--v1.png"
+                                            alt="trash--v1"
+                                        />
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="bg-green-600 rounded-lg text-white px-8 py-2 flex justify-between gap-1"
+                                    >
+                                        Save
+                                        <i className="gg-check"></i>
+                                    </button>
+                                </div>
                             </div>
                         </form>
-                        <button onClick={deleteHandler}>Delete</button>
                         {/* <div>{errors}</div> */}
                     </div>
                 </div>
