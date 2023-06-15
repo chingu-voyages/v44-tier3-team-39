@@ -97,7 +97,7 @@ const MilestoneEdit = () => {
             description,
             deadline,
             status,
-            owner: user.id,
+            owner: user?.id,
             collaborators,
             tags,
         },
